@@ -3,7 +3,6 @@ package com.example.myapplication;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +14,7 @@ import android.widget.ImageView;
 
 import com.example.myapplication.model.UserModel;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,20 +49,16 @@ public class SignupActivity extends AppCompatActivity {
         // id에는 splash_background라는 string이 들어있는데 이것은 firebase의 remoteconfig에서 변경가능한 값(색상)이다.
         splash_background = mFirebaseRemoteConfig.getString(getString((R.string.rc_color)));
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(Color.parseColor(splash_background));
-        }
-
         // 밑의 코드는 롤리팝부터 적용 가능하다. 그 이하면 추가로 코드 써 주어야함.
         // 아이디 패스워드 밑에 있는 bar의 색을 적용시켜준다.
-        getWindow().setStatusBarColor(Color.parseColor(splash_background));
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(Color.parseColor(splash_background));
+//        }
 
 
         // 회원가입을 하기 위해서는 firebase 권한 연동이 되어야 한다. 때문에
         // tool -> firebase -> authentication -> 2) add firebase authentication to your app을 해준다.
         // 권한을 얻는 데에 필요한 firebase api가 추가된다.
-
-
         profile = (ImageView)findViewById(R.id.signupActivity_imageview_profile);
         profile.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -89,7 +85,7 @@ public class SignupActivity extends AppCompatActivity {
                 // text가 비워져 있는 란이 있다면 return한다. 회원가입 xx
                 // password가 6자리 미만일 때에는 에러가 난다.
                 if (email.getText().toString() == null || name.getText().toString() == null
-                        || password.getText().toString() == null){
+                        || password.getText().toString() == null || imageUri == null){
                     return; }
 
                 FirebaseAuth.getInstance()
@@ -113,9 +109,16 @@ public class SignupActivity extends AppCompatActivity {
                                         // 새로운 유저모델을 만들어 사용자의 uid으로 ui를 저장한다.
                                         UserModel userModel = new UserModel();
                                         userModel.userName = name.getText().toString();
-                                        userModel.profieImageUrl = imageUrl;
+                                        userModel.profiㅣeImageUrl = imageUrl;
 
-                                        FirebaseDatabase.getInstance().getReference().child("users").child(uid).setValue(userModel);
+                                        FirebaseDatabase.getInstance().getReference().child("users").child(uid).setValue(userModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+
+                                            // 회원가입에 성공하면 창을 지운다.
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                SignupActivity.this.finish();
+                                            }
+                                        });
 
                                     }
                                 });

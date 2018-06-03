@@ -88,6 +88,7 @@ public class SplashActivity extends AppCompatActivity {
         }else
         {
             startActivity(new Intent(this, LoginActivity.class));
+            finish(); // 밑에 남아있지 않고 본인도 종료된다.
         }
 
     }

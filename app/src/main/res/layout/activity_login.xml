@@ -33,6 +33,7 @@ tools:context=".LoginActivity">
         android:id="@+id/loginActivity_edittext_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="textPassword"
         android:hint="패스워드" />
 
 </android.support.design.widget.TextInputLayout>
@@ -52,3 +53,5 @@ tools:context=".LoginActivity">
     android:layout_height="wrap_content" />
 
 </LinearLayout>
+
+<!--inputType="textPassword"는 패스워드를 입력할 때 동그라미로 암호화를 시켜주는 아이이당!!!-->
