@@ -109,7 +109,11 @@ public class SignupActivity extends AppCompatActivity {
                                         // 새로운 유저모델을 만들어 사용자의 uid으로 ui를 저장한다.
                                         UserModel userModel = new UserModel();
                                         userModel.userName = name.getText().toString();
-                                        userModel.profiㅣeImageUrl = imageUrl;
+                                        userModel.profileImageUrl = imageUrl;
+                                        // 회원가입시 uid를 담아서 회원가입을 한다.
+                                       // 내가 원하는 사람과 채팅을 할 때 이 uid를 이용하여 채팅할 대상을 찾는다.
+                                        userModel.uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
 
                                         FirebaseDatabase.getInstance().getReference().child("users").child(uid).setValue(userModel).addOnSuccessListener(new OnSuccessListener<Void>() {
 

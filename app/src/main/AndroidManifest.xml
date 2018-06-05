@@ -19,7 +19,9 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".SignupActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".chat.MessageActivity"></activity>
+        <activity android:name=".chat.MessageActivity" />
+        <activity android:name=".fragment.SelectFriendActivity"/>
+        <activity android:name=".chat.GroupMessageActivity"></activity>
     </application>
 
 </manifest>
